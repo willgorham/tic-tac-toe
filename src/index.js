@@ -100,10 +100,11 @@ class Game extends React.Component {
 
     const moves = history.map((item, number) => {
       const description = number ? `Go to move #${number} (${item.move.column}, ${item.move.row})` : 'Go to game start';
+      const activeClass = number === this.state.moveNumber ? ' current-move' : '';
 
       return (
         <li key={number}>
-          <button onClick={() => this.jumpTo(number)}>{description}</button>
+          <button className={`history-button${activeClass}`} onClick={() => this.jumpTo(number)}>{description}</button>
         </li>
       );
     });

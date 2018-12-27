@@ -49,6 +49,18 @@ ol, ul {
   margin-left: 20px;
 }
 
-.game-info li:last-child button {
-  font-weight: bold;
+.history-button {
+  background-color: #ccc;
+  border: none;
+  color: #222;
+  margin-bottom: 4px;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.current-move {
+  background-color: #53ca57;
 }
