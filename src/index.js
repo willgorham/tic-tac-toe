@@ -103,7 +103,11 @@ class Game extends React.Component {
     const history = this.state.history;
     const currentBoard = history[this.state.moveNumber];
     const winner = calculateWinner(currentBoard.squares);
-    const status = winner ? `Winner: ${winner}` : `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
+    const status = winner ?
+                   `Winner: ${winner}` :
+                     !currentBoard.squares.includes(null) ?
+                     'DRAW - No winner' :
+                     `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
 
     const moves = history.map((item, number) => {
       const description = number ? `Go to move #${number} (${item.move.column}, ${item.move.row})` : 'Go to game start';
