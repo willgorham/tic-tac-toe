@@ -52,6 +52,7 @@ class Game extends React.Component {
         },
       }],
       moveNumber: 0,
+      moveOrder: 'down',
       xIsNext: true,
     }
   }
@@ -87,7 +88,13 @@ class Game extends React.Component {
       history: this.state.history.slice(0, moveNumber + 1),
       moveNumber: moveNumber,
       xIsNext: moveNumber % 2 === 0,
-    })
+    });
+  }
+
+  toggleMoveOrder() {
+    this.setState({
+      moveOrder: this.state.moveOrder === 'up' ? 'down' : 'up',
+    });
   }
 
   render() {
@@ -104,7 +111,7 @@ class Game extends React.Component {
 
       return (
         <li key={number}>
-          <button className={`history-button${activeClass}`} onClick={() => this.jumpTo(number)}>{description}</button>
+          <button className={`button${activeClass}`} onClick={() => this.jumpTo(number)}>{description}</button>
         </li>
       );
     });
@@ -120,8 +127,9 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
+          <div className="game-status">{status}</div>
+          <button className="button" onClick={() => this.toggleMoveOrder()}>Sort moves</button>
+          <ol>{this.state.moveOrder === 'up' ? moves.reverse() : moves}</ol>
         </div>
       </div>
     );
