@@ -14,31 +14,28 @@ class Board extends React.Component {
   renderSquare(i) {
     return (
       <Square
+        key={i}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
       />
     );
   }
 
+  createBoard(rows, cols) {
+    const board = [...Array(rows)].map((row, rowIndex) => {
+      return (
+        <div className="board-row" key={`row-${rowIndex}`}>
+          {[...Array(cols)].map((col, colIndex) => this.renderSquare(3 * rowIndex + colIndex))}
+        </div>
+      )
+    });
+
+    return board;
+  }
+
   render() {
     return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
+      <div>{this.createBoard(this.props.rows, this.props.columns)}</div>
     );
   }
 }
@@ -64,7 +61,7 @@ class Game extends React.Component {
     const currentBoard = history[history.length - 1];
     const squares = currentBoard.squares.slice();
     const move = {
-      col: (i % 3) + 1,
+      column: (i % 3) + 1,
       row: i <= 2 ? 1 : (i <= 5 ? 2 : 3),
     }
     if (calculateWinner(squares) || squares[i]) {
@@ -94,13 +91,15 @@ class Game extends React.Component {
   }
 
   render() {
+    const boardRows = 3;
+    const boardColumns = 3;
     const history = this.state.history;
     const currentBoard = history[this.state.moveNumber];
     const winner = calculateWinner(currentBoard.squares);
     const status = winner ? `Winner: ${winner}` : `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
 
     const moves = history.map((item, number) => {
-      const description = number ? `Go to move #${number} (${item.move.col}, ${item.move.row})` : 'Go to game start';
+      const description = number ? `Go to move #${number} (${item.move.column}, ${item.move.row})` : 'Go to game start';
 
       return (
         <li key={number}>
@@ -113,6 +112,8 @@ class Game extends React.Component {
       <div className="game">
         <div className="game-board">
           <Board
+            rows={boardRows}
+            columns={boardColumns}
             squares={currentBoard.squares}
             onClick={(i) => this.handleClick(i)}
           />
